@@ -1,0 +1,31 @@
+:root {
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  --color-purple-800: #393a4b;
+  --color-purple-700: #4d5067;
+  --color-purple-600: #5b5e7e;
+  --color-purple-300: #c8cbe7;
+  --color-purple-100: #e3e4f1;
+
+  --color-gray-600: #9495a5;
+  --color-gray-300: #d1d2da;
+  --color-gray-50: #fafafa;
+
+  --color-navy-950: #171823;
+  --color-navy-900: #25273d;
+  --color-navy-850: #494c6b;
+
+  --color-blue-500: #3a7cfd;
+
+  --color-gradient-1: linear-gradient(
+    135deg,
+    rgba(101, 233, 228, 1) 0%,
+    rgba(192, 88, 243, 1) 100%
+  );
+  --color-gradient-2: linear-gradient(
+    135deg,
+    rgba(55, 16, 189, 1) 0%,
+    rgba(164, 35, 149, 1) 100%
+  );
+}
