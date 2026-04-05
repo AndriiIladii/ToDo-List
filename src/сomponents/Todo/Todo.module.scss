@@ -9,9 +9,9 @@
 
 .TodoContainer {
   width: 100%;
-  max-width: 540px;
+  max-width: 580px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 20px;
 }
 
 .TodoLogo {
@@ -42,6 +42,10 @@
   }
 }
 
+input[type="checkbox"] {
+  appearance: none;
+}
+
 .TodoCheckbox {
   display: flex;
   align-items: center;
@@ -54,8 +58,20 @@
 }
 
 .TodoCheckboxChecked {
+  position: relative;
   border: none;
   background: var(--color-gradient-1);
+
+  &:after {
+    position: absolute;
+    content: "";
+    background-image: url("../../assets/checkedIcon.svg");
+    background-repeat: no-repeat;
+    top: 8px;
+    right: 7px;
+    width: 9px;
+    height: 9px;
+  }
 }
 
 .TodoList {
@@ -116,6 +132,16 @@
   box-shadow: 0 35px 50px -15px rgba(194, 195, 214, 0.5);
 }
 
+.TodoDeleteBtn {
+  width: 40px;
+  height: 40px;
+  opacity: 0;
+  transition: opacity 0.1s ease-in;
+  &:hover {
+    opacity: 1;
+  }
+}
+
 .TodoFilterBtn {
   font-weight: 700;
   font-size: 14px;
@@ -123,6 +149,10 @@
   letter-spacing: -0.02em;
   color: var(--color-gray-600);
   cursor: pointer;
+}
+
+.TodoFilterBtnActive {
+  color: var(--color-blue-500);
 }
 
 .TodoClearBtn {
@@ -137,5 +167,9 @@
 
   .TodoFilters {
     display: flex;
+  }
+
+  .TodoDeleteBtn {
+    opacity: 1;
   }
 }

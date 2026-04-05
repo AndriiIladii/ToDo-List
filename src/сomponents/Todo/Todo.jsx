@@ -1,16 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Todo.module.scss";
 
 function Todo() {
-  const [tasks, setTasks] = useState([
-    { id: 1, text: "Complete online JavaScript course", isDone: false },
-    { id: 2, text: "Jog around the park 3x", isDone: false },
-    { id: 3, text: "10 minutes meditation", isDone: false },
-    { id: 4, text: "Read for 1 hour", isDone: false },
-    { id: 5, text: "Pick up groceries", isDone: false },
-    { id: 6, text: "Complete Todo App on Frontend Mentor", isDone: false },
-  ]);
+  const [tasks, setTasks] = useState(() => {
+    const savedTasks = localStorage.getItem("tasks");
+    return savedTasks
+      ? JSON.parse(savedTasks)
+      : [
+          { id: 1, text: "Complete online JavaScript course", isDone: false },
+          { id: 2, text: "Jog around the park 3x", isDone: false },
+          { id: 3, text: "10 minutes meditation", isDone: false },
+          { id: 4, text: "Read for 1 hour", isDone: false },
+          { id: 5, text: "Pick up groceries", isDone: false },
+          {
+            id: 6,
+            text: "Complete Todo App on Frontend Mentor",
+            isDone: false,
+          },
+        ];
+  });
   const [newTaskTitle, setNewTaskTitle] = useState("");
+  const [filter, setFilter] = useState("all");
+
+  let filteredTasks = tasks;
+
+  if (filter === "active") {
+    filteredTasks = filteredTasks.filter((task) => !task.isDone);
+  } else if (filter === "completed") {
+    filteredTasks = filteredTasks.filter((task) => task.isDone);
+  }
+
+  const changeFilter = (newFilterValue) => {
+    setFilter(newFilterValue);
+  };
 
   const addTask = (e) => {
     e.preventDefault();
@@ -28,6 +50,29 @@ function Todo() {
     setTasks([...tasks, newTask]);
     setNewTaskTitle("");
   };
+
+  const toggleTaskComplete = (taskId, isDone) => {
+    setTasks(
+      tasks.map((task) => {
+        if (task.id === taskId) {
+          return { ...task, isDone };
+        }
+        return task;
+      }),
+    );
+  };
+
+  const deleteTask = (taskId) => {
+    setTasks(tasks.filter((task) => task.id !== taskId));
+  };
+
+  const clearCompletedTasks = () => {
+    setTasks(tasks.filter((task) => !task.isDone));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <>
@@ -75,30 +120,48 @@ function Todo() {
 
       <div className={styles.TodoContainer}>
         <ul className={styles.TodoList}>
-          {tasks.map((task) => (
+          {filteredTasks.map((task) => (
             <li
               key={task.id}
               className={`${styles.TodoItem} ${
                 task.isDone ? styles.TodoItemDone : ""
               }`}
             >
-              <span
+              <input
+                type="checkbox"
+                checked={task.isDone}
+                onChange={(event) =>
+                  toggleTaskComplete(task.id, event.target.checked)
+                }
                 className={`${styles.TodoCheckbox} ${
                   task.isDone ? styles.TodoCheckboxChecked : ""
                 }`}
-              >
-                {task.isDone && (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="11" height="9">
-                    <path
-                      fill="none"
-                      stroke="#FFF"
-                      strokeWidth="2"
-                      d="M1 4.304L3.696 7l6-6"
-                    />
-                  </svg>
-                )}
-              </span>
+              />
+
               <p className={styles.TodoItemText}>{task.text}</p>
+              <button
+                className={styles.TodoDeleteBtn}
+                aria-label="Delete"
+                title="Delete"
+                onClick={() => {
+                  deleteTask(task.id);
+                }}
+              >
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    clipRule="evenodd"
+                    d="M17.6777 0.707107L16.9706 0L8.83883 8.13173L0.707107 0L0 0.707107L8.13173 8.83883L0 16.9706L0.707106 17.6777L8.83883 9.54594L16.9706 17.6777L17.6777 16.9706L9.54594 8.83883L17.6777 0.707107Z"
+                    fill="#494C6B"
+                  />
+                </svg>
+              </button>
             </li>
           ))}
         </ul>
@@ -108,25 +171,61 @@ function Todo() {
             {tasks.filter((task) => !task.isDone).length} items left
           </span>
           <div className={styles.TodoFiltersDesktop}>
-            <span
-              className={`${styles.TodoFilterBtn} ${styles.TodoFilterBtnActive}`}
+            <button
+              className={`${styles.TodoFilterBtn} ${filter === "all" ? styles.TodoFilterBtnActive : ""}`}
+              onClick={() => {
+                changeFilter("all");
+              }}
             >
               All
-            </span>
-            <span className={styles.TodoFilterBtn}>Active</span>
-            <span className={styles.TodoFilterBtn}>Completed</span>
+            </button>
+            <button
+              className={`${styles.TodoFilterBtn} ${filter === "active" ? styles.TodoFilterBtnActive : ""}`}
+              onClick={() => {
+                changeFilter("active");
+              }}
+            >
+              Active
+            </button>
+            <button
+              className={`${styles.TodoFilterBtn} ${filter === "completed" ? styles.TodoFilterBtnActive : ""}`}
+              onClick={() => {
+                changeFilter("completed");
+              }}
+            >
+              Completed
+            </button>
           </div>
-          <span className={styles.TodoClearBtn}>Clear Completed</span>
+          <button className={styles.TodoClearBtn} onClick={clearCompletedTasks}>
+            Clear Completed
+          </button>
         </div>
 
         <div className={styles.TodoFilters}>
-          <span
-            className={`${styles.TodoFilterBtn} ${styles.TodoFilterBtnActive}`}
+          <button
+            className={`${styles.TodoFilterBtn} ${filter === "all" ? styles.TodoFilterBtnActive : ""}`}
+            onClick={() => {
+              changeFilter("all");
+            }}
           >
             All
-          </span>
-          <span className={styles.TodoFilterBtn}>Active</span>
-          <span className={styles.TodoFilterBtn}>Completed</span>
+          </button>
+          <button
+            className={`${styles.TodoFilterBtn} ${filter === "active" ? styles.TodoFilterBtnActive : ""}`}
+            onClick={() => {
+              changeFilter("active");
+            }}
+          >
+            Active
+          </button>
+          <button
+            className={`${styles.TodoFilterBtn} ${filter === "completed" ? styles.TodoFilterBtnActive : ""}`}
+            onClick={() => {
+              changeFilter("completed");
+            }}
+          >
+            Completed
+          </button>
         </div>
       </div>
     </>
