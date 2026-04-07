@@ -1,5 +1,19 @@
 import { useState, useEffect } from "react";
+import {
+  closestCorners,
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  TouchSensor,
+  useSensors,
+  useSensor,
+} from "@dnd-kit/core";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import styles from "./Todo.module.scss";
+import TodoList from "../TodoList/TodoList";
+import AddTaskForm from "../AddTaskForm/AddTaskForm";
+import Header from "../Header/Header";
+import FilterBar from "../FilterBar/FilterBar";
 
 function Todo() {
   const [tasks, setTasks] = useState(() => {
@@ -31,14 +45,6 @@ function Todo() {
 
     return preference;
   });
-
-  let filteredTasks = tasks;
-
-  if (filter === "active") {
-    filteredTasks = filteredTasks.filter((task) => !task.isDone);
-  } else if (filter === "completed") {
-    filteredTasks = filteredTasks.filter((task) => task.isDone);
-  }
 
   const changeFilter = (newFilterValue) => {
     setFilter(newFilterValue);
@@ -84,6 +90,40 @@ function Todo() {
     return !darkMode ? setDarkMode(true) : setDarkMode(false);
   };
 
+  const getTaskPos = (id) => {
+    return tasks.findIndex((task) => task.id === id);
+  };
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
+
+    if (active.id === over.id) return;
+
+    setTasks((tasks) => {
+      const originalPos = getTaskPos(active.id);
+      const newPos = getTaskPos(over.id);
+
+      return arrayMove(tasks, originalPos, newPos);
+    });
+  };
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
@@ -93,165 +133,51 @@ function Todo() {
   }, [darkMode]);
 
   return (
-    <div className={`${styles.TodoBody} ${darkMode ? styles.DarkTheme : ""}`}>
-      <div className={styles.TodoHeader}>
-        <div className={styles.TodoContainer}>
-          <div className={styles.TodoContainerWrapper}>
-            <div className={styles.TodoLogo}>
-              <svg
-                width="163"
-                height="31"
-                viewBox="0 0 163 31"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M19.84 0.319998V5.92H12.68V29.76H6.88V5.92H0V0.319998H19.84Z"
-                  fill="white"
-                />
-                <path
-                  d="M37.6219 15.08C37.6219 12.4133 38.2885 9.92 39.6219 7.6C40.9819 5.28 42.8085 3.44 45.1019 2.08C47.4219 0.693333 49.9285 0 52.6219 0C55.3152 0 57.8085 0.693333 60.1019 2.08C62.4219 3.44 64.2619 5.28 65.6219 7.6C67.0085 9.92 67.7019 12.4133 67.7019 15.08C67.7019 17.8 67.0085 20.3067 65.6219 22.6C64.2619 24.8933 62.4219 26.72 60.1019 28.08C57.8085 29.4133 55.3152 30.08 52.6219 30.08C49.9019 30.08 47.3952 29.4133 45.1019 28.08C42.8085 26.72 40.9819 24.8933 39.6219 22.6C38.2885 20.3067 37.6219 17.8 37.6219 15.08ZM43.6219 15.08C43.6219 16.7867 44.0219 18.36 44.8219 19.8C45.6485 21.24 46.7552 22.3867 48.1419 23.24C49.5552 24.0667 51.1152 24.48 52.8219 24.48C54.4752 24.48 55.9819 24.0667 57.3419 23.24C58.7019 22.3867 59.7685 21.2533 60.5419 19.84C61.3152 18.4 61.7019 16.8133 61.7019 15.08C61.7019 13.32 61.3019 11.72 60.5019 10.28C59.7019 8.84 58.6085 7.70667 57.2219 6.88C55.8619 6.02667 54.3419 5.6 52.6619 5.6C50.9819 5.6 49.4485 6.02667 48.0619 6.88C46.7019 7.70667 45.6219 8.84 44.8219 10.28C44.0219 11.72 43.6219 13.32 43.6219 15.08Z"
-                  fill="white"
-                />
-                <path
-                  d="M88.4844 0.319998H97.2844C101.044 0.319998 104.138 1.05333 106.564 2.52C108.991 3.96 110.751 5.84 111.844 8.16C112.964 10.4533 113.524 12.92 113.524 15.56C113.524 18.3867 112.858 20.88 111.524 23.04C110.191 25.2 108.391 26.8667 106.124 28.04C103.884 29.1867 101.418 29.76 98.7244 29.76H88.4844V0.319998ZM97.7244 24.16C100.738 24.16 103.124 23.3867 104.884 21.84C106.644 20.2933 107.524 18.0667 107.524 15.16C107.524 12.8133 107.031 10.9467 106.044 9.56C105.084 8.17333 103.951 7.21333 102.644 6.68C101.364 6.14667 100.151 5.88 99.0044 5.88H94.2844V24.16H97.7244Z"
-                  fill="white"
-                />
-                <path
-                  d="M132.544 15.08C132.544 12.4133 133.21 9.92 134.544 7.6C135.904 5.28 137.73 3.44 140.024 2.08C142.344 0.693333 144.85 0 147.544 0C150.237 0 152.73 0.693333 155.024 2.08C157.344 3.44 159.184 5.28 160.544 7.6C161.93 9.92 162.624 12.4133 162.624 15.08C162.624 17.8 161.93 20.3067 160.544 22.6C159.184 24.8933 157.344 26.72 155.024 28.08C152.73 29.4133 150.237 30.08 147.544 30.08C144.824 30.08 142.317 29.4133 140.024 28.08C137.73 26.72 135.904 24.8933 134.544 22.6C133.21 20.3067 132.544 17.8 132.544 15.08ZM138.544 15.08C138.544 16.7867 138.944 18.36 139.744 19.8C140.57 21.24 141.677 22.3867 143.064 23.24C144.477 24.0667 146.037 24.48 147.744 24.48C149.397 24.48 150.904 24.0667 152.264 23.24C153.624 22.3867 154.69 21.2533 155.464 19.84C156.237 18.4 156.624 16.8133 156.624 15.08C156.624 13.32 156.224 11.72 155.424 10.28C154.624 8.84 153.53 7.70667 152.144 6.88C150.784 6.02667 149.264 5.6 147.584 5.6C145.904 5.6 144.37 6.02667 142.984 6.88C141.624 7.70667 140.544 8.84 139.744 10.28C138.944 11.72 138.544 13.32 138.544 15.08Z"
-                  fill="white"
-                />
-              </svg>
-            </div>
-            <button
-              className={styles.TodoThemeSwitch}
-              onClick={toggleTheme}
-            ></button>
-          </div>
-
-          <form className={styles.TodoInputWrapper} onSubmit={addTask}>
-            <span className={styles.TodoCheckbox}></span>
-            <input
-              className={styles.TodoInput}
-              type="text"
-              placeholder="Create a new todo..."
-              value={newTaskTitle}
-              onChange={(e) => setNewTaskTitle(e.target.value)}
+    <DndContext
+      collisionDetection={closestCorners}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+    >
+      <div className={`${styles.TodoBody} ${darkMode ? styles.DarkTheme : ""}`}>
+        <div className={styles.TodoHeader}>
+          <div className={styles.TodoContainer}>
+            <Header toggleTheme={toggleTheme} />
+            <AddTaskForm
+              addTask={addTask}
+              newTaskTitle={newTaskTitle}
+              setNewTaskTitle={setNewTaskTitle}
             />
-          </form>
-        </div>
-      </div>
-
-      <div className={styles.TodoContainer}>
-        <ul className={styles.TodoList}>
-          {filteredTasks.map((task) => (
-            <li
-              key={task.id}
-              className={`${styles.TodoItem} ${
-                task.isDone ? styles.TodoItemDone : ""
-              }`}
-            >
-              <input
-                type="checkbox"
-                checked={task.isDone}
-                onChange={(event) =>
-                  toggleTaskComplete(task.id, event.target.checked)
-                }
-                className={`${styles.TodoCheckbox} ${
-                  task.isDone ? styles.TodoCheckboxChecked : ""
-                }`}
-              />
-
-              <p className={styles.TodoItemText}>{task.text}</p>
-              <button
-                className={styles.TodoDeleteBtn}
-                aria-label="Delete"
-                title="Delete"
-                onClick={() => {
-                  deleteTask(task.id);
-                }}
-              >
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 18 18"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fillRule="evenodd"
-                    clipRule="evenodd"
-                    d="M17.6777 0.707107L16.9706 0L8.83883 8.13173L0.707107 0L0 0.707107L8.13173 8.83883L0 16.9706L0.707106 17.6777L8.83883 9.54594L16.9706 17.6777L17.6777 16.9706L9.54594 8.83883L17.6777 0.707107Z"
-                  />
-                </svg>
-              </button>
-            </li>
-          ))}
-        </ul>
-
-        <div className={styles.TodoFooter}>
-          <span className={styles.TodoItemsLeft}>
-            {tasks.filter((task) => !task.isDone).length} items left
-          </span>
-          <div className={styles.TodoFiltersDesktop}>
-            <button
-              className={`${styles.TodoFilterBtn} ${filter === "all" ? styles.TodoFilterBtnActive : ""}`}
-              onClick={() => {
-                changeFilter("all");
-              }}
-            >
-              All
-            </button>
-            <button
-              className={`${styles.TodoFilterBtn} ${filter === "active" ? styles.TodoFilterBtnActive : ""}`}
-              onClick={() => {
-                changeFilter("active");
-              }}
-            >
-              Active
-            </button>
-            <button
-              className={`${styles.TodoFilterBtn} ${filter === "completed" ? styles.TodoFilterBtnActive : ""}`}
-              onClick={() => {
-                changeFilter("completed");
-              }}
-            >
-              Completed
-            </button>
           </div>
-          <button className={styles.TodoClearBtn} onClick={clearCompletedTasks}>
-            Clear Completed
-          </button>
         </div>
+        <div className={styles.TodoContainer}>
+          <TodoList
+            tasks={tasks}
+            filter={filter}
+            deleteTask={deleteTask}
+            toggleTaskComplete={toggleTaskComplete}
+            setTasks={setTasks}
+          />
 
-        <div className={styles.TodoFilters}>
-          <button
-            className={`${styles.TodoFilterBtn} ${filter === "all" ? styles.TodoFilterBtnActive : ""}`}
-            onClick={() => {
-              changeFilter("all");
-            }}
-          >
-            All
-          </button>
-          <button
-            className={`${styles.TodoFilterBtn} ${filter === "active" ? styles.TodoFilterBtnActive : ""}`}
-            onClick={() => {
-              changeFilter("active");
-            }}
-          >
-            Active
-          </button>
-          <button
-            className={`${styles.TodoFilterBtn} ${filter === "completed" ? styles.TodoFilterBtnActive : ""}`}
-            onClick={() => {
-              changeFilter("completed");
-            }}
-          >
-            Completed
-          </button>
+          <div className={styles.TodoFooter}>
+            <FilterBar
+              tasks={tasks}
+              filter={filter}
+              changeFilter={changeFilter}
+              clearCompletedTasks={clearCompletedTasks}
+            />
+          </div>
+
+          <div className={styles.TodoFilters}>
+            <FilterBar
+              tasks={tasks}
+              filter={filter}
+              changeFilter={changeFilter}
+              clearCompletedTasks={clearCompletedTasks}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </DndContext>
   );
 }
 
