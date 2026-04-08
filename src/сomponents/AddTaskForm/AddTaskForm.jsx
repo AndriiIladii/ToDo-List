@@ -1,8 +1,19 @@
+import { useState } from "react";
+
 import styles from "../Todo/Todo.module.scss";
 
-function addTaskForm({ addTask, newTaskTitle, setNewTaskTitle }) {
+function addTaskForm({ addTask }) {
+  const [newTaskTitle, setNewTaskTitle] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    addTask(newTaskTitle);
+    setNewTaskTitle("");
+  };
+
   return (
-    <form className={styles.TodoInputWrapper} onSubmit={addTask}>
+    <form className={styles.TodoInputWrapper} onSubmit={handleSubmit}>
       <span className={styles.TodoCheckbox}></span>
       <input
         className={styles.TodoInput}
