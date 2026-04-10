@@ -1,5 +1,7 @@
 # Todo App 📝
 
+### 🔗 [Live Demo](https://andriiiladii.github.io/ToDo-List/)
+
 A modern task management web application (Todo list) built with React and Vite. Initially developed as a classic ToDo app, it has been significantly refactored and improved with a focus on modular architecture, responsiveness, and user experience (UX).
 
 ## 🚀 Key Features & Improvements
