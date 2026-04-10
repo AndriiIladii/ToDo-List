@@ -1,0 +1,25 @@
+.addTaskFormWrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--container-bg);
+  border-radius: 0.3125rem;
+  padding: 1rem 1.5rem;
+  box-shadow: var(--todo-boxShadow);
+}
+
+.addTaskInput {
+  flex: 1;
+  outline: none;
+  border: none;
+  color: var(--text-primary);
+  background: transparent;
+  font-size: clamp(0.75rem, 0.618rem + 0.56vw, 1.125rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+
+  &::placeholder {
+    color: var(--color-gray-600);
+  }
+}

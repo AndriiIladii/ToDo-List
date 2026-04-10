@@ -1,0 +1,55 @@
+.filterBody {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: var(--container-bg);
+  border-radius: 0 0 0.3125rem 0.3125rem;
+  box-shadow: var(--todo-boxShadow);
+  font-size: 0.875rem;
+  color: var(--text-footer);
+}
+
+.filterBarDesktop {
+  display: flex;
+  gap: 1.125rem;
+}
+
+.filterBarFilters {
+  display: none;
+  gap: 1.125rem;
+  justify-content: center;
+  padding: 0.9375rem 0;
+  margin-top: 1rem;
+  background: var(--container-bg);
+  border-radius: 0.3125rem;
+  box-shadow: var(--todo-boxShadow);
+}
+
+.filterBarBtn {
+  font-weight: 700;
+  font-size: 0.875rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--filter-btn);
+  cursor: pointer;
+}
+
+.filterBarBtnActive {
+  color: var(--color-blue-500);
+}
+
+.filterBarClearBtn {
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+@media (max-width: 48rem) {
+  .filterBarDesktop {
+    display: none;
+  }
+
+  .filterBarFilters {
+    display: flex;
+  }
+}

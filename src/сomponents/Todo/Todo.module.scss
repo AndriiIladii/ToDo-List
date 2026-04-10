@@ -1,4 +1,4 @@
-.TodoBody {
+.todoBody {
   --bg-color: var(--color-gray-50);
   --container-bg: var(--color-white);
   --text-primary: var(--color-navy-850);
@@ -6,10 +6,9 @@
   --text-done: var(--color-gray-300);
   --border-bottom: var(--color-purple-100);
   --filter-btn: var(--color-gray-600);
-  --todo-boxShadow: 0 35px 50px -15px rgba(194, 195, 214, 0.5);
+  --todo-boxShadow: 0 2.1875rem 3.125rem -0.9375rem rgba(194, 195, 214, 0.5);
   --bg-image: url("../../assets/lightThemeBg.png");
   --button-bg: url("../../assets/darkMode.svg");
-
   background-color: var(--bg-color);
   min-height: 100vh;
   transition:
@@ -17,7 +16,7 @@
     color 0.3s ease;
 }
 
-.DarkTheme {
+.darkTheme {
   --bg-color: var(--color-navy-950);
   --container-bg: var(--color-navy-900);
   --text-primary: var(--color-purple-100);
@@ -25,201 +24,23 @@
   --text-footer: var(--color-purple-600);
   --border-bottom: var(--color-purple-800);
   --filter-btn: var(--color-purple-600);
-  --todo-boxShadow: 0 35px 50px -15px rgba(0, 0, 0, 0.5);
+  --todo-boxShadow: 0 2.1875rem 3.125rem -0.9375rem rgba(0, 0, 0, 0.5);
   --bg-image: url("../../assets/darkThemeBg.png");
   --button-bg: url("../../assets/lightMode.svg");
 }
 
-.TodoHeader {
+.todoHeader {
   background-image: var(--bg-image);
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-  padding-top: 48px;
-  padding-bottom: 100px;
+  padding-top: 3rem;
+  padding-bottom: 6.25rem;
 }
 
-.TodoContainer {
+.todoContainer {
   width: 100%;
-  max-width: 580px;
+  max-width: 36.25rem;
   margin: 0 auto;
-  padding: 0 20px;
-}
-
-.TodoContainerWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 40px;
-}
-
-.TodoThemeSwitch {
-  background-image: var(--button-bg);
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 26px;
-  height: 26px;
-}
-
-.TodoInputWrapper {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  background: var(--container-bg);
-  border-radius: 5px;
-  padding: 16px 24px;
-  box-shadow: var(--todo-boxShadow);
-}
-
-.TodoInput {
-  flex: 1;
-  outline: none;
-  border: none;
-  color: var(--text-primary);
-  background: transparent;
-  font-size: clamp(0.75rem, 0.618rem + 0.56vw, 1.125rem);
-  line-height: 1;
-  letter-spacing: -0.01em;
-  font-weight: 400;
-
-  &::placeholder {
-    color: var(--color-gray-600);
-  }
-}
-
-input[type="checkbox"] {
-  appearance: none;
-}
-
-.TodoCheckbox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  min-width: 24px;
-  cursor: pointer;
-  border-radius: 50%;
-  border: 1px solid var(--border-bottom);
-}
-
-.TodoCheckboxChecked {
-  position: relative;
-  border: none;
-  background: var(--color-gradient-1);
-
-  &:after {
-    position: absolute;
-    content: "";
-    background-image: url("../../assets/checkedIcon.svg");
-    background-repeat: no-repeat;
-    top: 8px;
-    right: 7px;
-    width: 9px;
-    height: 9px;
-  }
-}
-
-.TodoList {
-  display: flex;
-  flex-direction: column;
-  background: var(--container-bg);
-  border-radius: 5px 5px 0 0;
-  box-shadow: var(--todo-boxShadow);
-  margin-top: -28px;
-}
-
-.TodoItem {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  padding: 24px;
-  border-bottom: 1px solid var(--border-bottom);
-  cursor: grab;
-  touch-action: none;
-}
-
-.TodoItemText {
-  flex: 1;
-  font-size: clamp(0.75rem, 0.618rem + 0.56vw, 1.125rem);
-  color: var(--text-primary);
-  line-height: 1;
-  font-weight: 400;
-  letter-spacing: -0.01em;
-}
-
-.TodoItemDone .TodoItemText {
-  text-decoration: line-through;
-  color: var(--text-done);
-}
-
-.TodoFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 24px;
-  background: var(--container-bg);
-  border-radius: 0 0 5px 5px;
-  box-shadow: var(--todo-boxShadow);
-  font-size: 14px;
-  color: var(--text-footer);
-}
-
-.TodoFiltersDesktop {
-  display: flex;
-  gap: 18px;
-}
-
-.TodoFilters {
-  display: none;
-  gap: 18px;
-  justify-content: center;
-  padding: 15px 0;
-  margin-top: 16px;
-  background: var(--container-bg);
-  border-radius: 5px;
-  box-shadow: var(--todo-boxShadow);
-}
-
-.TodoDeleteBtn {
-  width: 40px;
-  height: 40px;
-  opacity: 0;
-  transition: opacity 0.1s ease-in;
-  color: var(--text-primary);
-  &:hover {
-    opacity: 1;
-  }
-}
-
-.TodoFilterBtn {
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: var(--filter-btn);
-  cursor: pointer;
-}
-
-.TodoFilterBtnActive {
-  color: var(--color-blue-500);
-}
-
-.TodoClearBtn {
-  font-size: 14px;
-  cursor: pointer;
-}
-
-@media (max-width: 768px) {
-  .TodoFiltersDesktop {
-    display: none;
-  }
-
-  .TodoFilters {
-    display: flex;
-  }
-
-  .TodoDeleteBtn {
-    opacity: 1;
-  }
+  padding: 0 1.25rem;
 }

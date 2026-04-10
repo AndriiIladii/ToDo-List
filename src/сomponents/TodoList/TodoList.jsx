@@ -1,4 +1,4 @@
-import styles from "../Todo/Todo.module.scss";
+import styles from "./TodoList.module.scss";
 import TodoItem from "../TodoItem/TodoItem";
 import {
   SortableContext,
@@ -15,7 +15,7 @@ function TodoList({ tasks, filter, deleteTask, toggleTaskComplete, setTasks }) {
   }
 
   return (
-    <ul className={styles.TodoList}>
+    <ul className={styles.todoList}>
       <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
         {filteredTasks.map((task) => (
           <TodoItem

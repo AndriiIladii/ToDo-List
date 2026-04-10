@@ -1,9 +1,9 @@
-import styles from "../Todo/Todo.module.scss";
+import styles from "./Header.module.scss";
 
 function Header({ toggleTheme }) {
   return (
-    <div className={styles.TodoContainerWrapper}>
-      <div className={styles.TodoLogo}>
+    <div className={styles.todoHeaderWrapper}>
+      <div className={styles.todoHeaderLogo}>
         <svg
           width="163"
           height="31"
@@ -29,7 +29,10 @@ function Header({ toggleTheme }) {
           />
         </svg>
       </div>
-      <button className={styles.TodoThemeSwitch} onClick={toggleTheme}></button>
+      <button
+        className={styles.todoHeaderThemeSwitch}
+        onClick={toggleTheme}
+      ></button>
     </div>
   );
 }

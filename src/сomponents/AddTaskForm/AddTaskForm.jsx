@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import styles from "../Todo/Todo.module.scss";
+import styles from "./AddTaskForm.module.scss";
 
 function addTaskForm({ addTask }) {
   const [newTaskTitle, setNewTaskTitle] = useState("");
@@ -13,10 +13,9 @@ function addTaskForm({ addTask }) {
   };
 
   return (
-    <form className={styles.TodoInputWrapper} onSubmit={handleSubmit}>
-      <span className={styles.TodoCheckbox}></span>
+    <form className={styles.addTaskFormWrapper} onSubmit={handleSubmit}>
       <input
-        className={styles.TodoInput}
+        className={styles.addTaskInput}
         type="text"
         placeholder="Create a new todo..."
         value={newTaskTitle}

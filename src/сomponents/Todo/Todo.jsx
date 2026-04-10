@@ -31,14 +31,14 @@ function Todo() {
       onDragEnd={handleDragEnd}
       sensors={sensors}
     >
-      <div className={`${styles.TodoBody} ${darkMode ? styles.DarkTheme : ""}`}>
-        <div className={styles.TodoHeader}>
-          <div className={styles.TodoContainer}>
+      <div className={`${styles.todoBody} ${darkMode ? styles.darkTheme : ""}`}>
+        <div className={styles.todoHeader}>
+          <div className={styles.todoContainer}>
             <Header toggleTheme={toggleTheme} />
             <AddTaskForm addTask={addTask} />
           </div>
         </div>
-        <div className={styles.TodoContainer}>
+        <div className={styles.todoContainer}>
           <TodoList
             tasks={tasks}
             filter={filter}

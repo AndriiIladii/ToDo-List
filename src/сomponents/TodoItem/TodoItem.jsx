@@ -1,4 +1,4 @@
-import styles from "../Todo/Todo.module.scss";
+import styles from "./TodoItem.module.scss";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -17,20 +17,20 @@ function TodoItem({ deleteTask, toggleTaskComplete, task }) {
       {...attributes}
       {...listeners}
       style={style}
-      className={`${styles.TodoItem} ${task.isDone ? styles.TodoItemDone : ""}`}
+      className={`${styles.todoItem} ${task.isDone ? styles.todoItemDone : ""}`}
     >
       <input
         type="checkbox"
         checked={task.isDone}
         onChange={(event) => toggleTaskComplete(task.id, event.target.checked)}
-        className={`${styles.TodoCheckbox} ${
-          task.isDone ? styles.TodoCheckboxChecked : ""
+        className={`${styles.todoItemCheckbox} ${
+          task.isDone ? styles.todoCheckboxChecked : ""
         }`}
       />
 
-      <p className={styles.TodoItemText}>{task.text}</p>
+      <p className={styles.todoItemText}>{task.text}</p>
       <button
-        className={styles.TodoDeleteBtn}
+        className={styles.todoDeleteBtn}
         aria-label="Delete"
         title="Delete"
         onClick={() => {

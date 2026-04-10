@@ -1,0 +1,14 @@
+.todoHeaderWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2.5rem;
+}
+
+.todoHeaderThemeSwitch {
+  background-image: var(--button-bg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 1.625rem;
+  height: 1.625rem;
+}

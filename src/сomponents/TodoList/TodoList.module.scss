@@ -1,0 +1,8 @@
+.todoList {
+  display: flex;
+  flex-direction: column;
+  background: var(--container-bg);
+  border-radius: 0.3125rem 0.3125rem 0 0;
+  box-shadow: var(--todo-boxShadow);
+  margin-top: -1.75rem;
+}

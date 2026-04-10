@@ -1,18 +1,45 @@
-# React + Vite
+# Todo App 📝
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern task management web application (Todo list) built with React and Vite. Initially developed as a classic ToDo app, it has been significantly refactored and improved with a focus on modular architecture, responsiveness, and user experience (UX).
 
-Currently, two official plugins are available:
+## 🚀 Key Features & Improvements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### 1. Architecture & Refactoring 🧰
+* **Component-Based Structure**: The once monolithic main file has been broken down into logical layers: `Header`, `AddTaskForm`, `TodoList`, `TodoItem`, and `FilterBar`.
+* **Custom Hooks**: All business logic has been extracted into custom hooks to keep components clean:
+  * `useTasks` — handles adding, deleting, toggling task status, filtering, and Drag & Drop functionality.
+  * `useTheme` — manages the Dark and Light mode toggling logic.
+* **Styling**: Migrated to SCSS Modules. Every component now has isolated styling (`*.module.scss`), preventing class name collisions.
 
-## React Compiler
+### 2. User Experience (UX) ✨
+* **Drag & Drop**: Implemented smooth list sorting using the `@dnd-kit` library. Sensors are finely tuned so that dragging does not interfere with clicking checkboxes or delete buttons.
+* **Dark / Light Theme**: Full support for both themes using CSS variables, with state persistence. If a user visits for the first time, the theme defaults automatically based on OS system preferences.
+* **State Persistence**: Tasks and theme preferences are instantly saved to `localStorage`. Nothing is lost upon page refresh.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### 3. Responsiveness & UI 📱
+* **REM & Fluid Typography**: All static `px` values (regarding margins, padding, width, height, media queries) have been converted into relative `rem` units. The `clamp()` function is used for typography, ensuring text scales beautifully depending on screen size.
+* **Responsive Design**: The app adapts to any screen. On mobile devices (width under `768px`), the filter bar (All, Active, Completed) elegantly splits and moves under the main list as a standalone block.
+* **Custom Checkboxes**: Default browser checkboxes have been replaced with custom styled circular shapes featuring gradient backgrounds when checked.
 
-Note: This will impact Vite dev & build performances.
+## 🛠 Built With
 
-## Expanding the ESLint configuration
+* **Bundler**: Vite
+* **Library**: React 19
+* **Drag & Drop**: `@dnd-kit/core`, `@dnd-kit/sortable`
+* **Styling**: SCSS (CSS Modules), CSS custom properties (variables)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ⚙️ Getting Started
+
+1. Ensure Node.js is installed on your machine.
+2. Clone the repository and install the dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Open `http://localhost:5173` in your browser.
+
+---
+*This project was developed focusing on modern React patterns (declarative UI, hooks) and advanced CSS techniques (fluid typography, variables, responsive design).*
