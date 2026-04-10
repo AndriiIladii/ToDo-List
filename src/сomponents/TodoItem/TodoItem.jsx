@@ -1,8 +1,11 @@
+import { useState } from "react";
 import styles from "./TodoItem.module.scss";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 function TodoItem({ deleteTask, toggleTaskComplete, task }) {
+  const [isDeleting, setIsDeleting] = useState(false);
+
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: task.id });
 
@@ -11,13 +14,20 @@ function TodoItem({ deleteTask, toggleTaskComplete, task }) {
     transition,
   };
 
+  const handleDelete = () => {
+    setIsDeleting(true);
+    setTimeout(() => {
+      deleteTask(task.id);
+    }, 400);
+  };
+
   return (
     <li
       ref={setNodeRef}
       {...attributes}
       {...listeners}
       style={style}
-      className={`${styles.todoItem} ${task.isDone ? styles.todoItemDone : ""}`}
+      className={`${styles.todoItem} ${task.isDone ? styles.todoItemDone : ""} ${isDeleting ? styles.todoItemDeleting : ""}`}
     >
       <input
         type="checkbox"
@@ -33,9 +43,7 @@ function TodoItem({ deleteTask, toggleTaskComplete, task }) {
         className={styles.todoDeleteBtn}
         aria-label="Delete"
         title="Delete"
-        onClick={() => {
-          deleteTask(task.id);
-        }}
+        onClick={handleDelete}
       >
         <svg
           width="18"

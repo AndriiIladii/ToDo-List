@@ -8,6 +8,10 @@
   box-shadow: var(--todo-boxShadow);
   font-size: 0.875rem;
   color: var(--text-footer);
+  transition:
+    background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .filterBarDesktop {
@@ -24,6 +28,9 @@
   background: var(--container-bg);
   border-radius: 0.3125rem;
   box-shadow: var(--todo-boxShadow);
+  transition:
+    background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .filterBarBtn {
@@ -33,6 +40,7 @@
   letter-spacing: -0.02em;
   color: var(--filter-btn);
   cursor: pointer;
+  transition: color 0.3s ease;
 }
 
 .filterBarBtnActive {
@@ -42,6 +50,11 @@
 .filterBarClearBtn {
   font-size: 0.875rem;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.filterTodoItemsLeft {
+  transition: color 0.3s ease;
 }
 
 @media (max-width: 48rem) {

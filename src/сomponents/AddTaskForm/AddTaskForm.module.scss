@@ -6,6 +6,9 @@
   border-radius: 0.3125rem;
   padding: 1rem 1.5rem;
   box-shadow: var(--todo-boxShadow);
+  transition:
+    background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .addTaskInput {
@@ -18,8 +21,10 @@
   line-height: 1;
   letter-spacing: -0.01em;
   font-weight: 400;
+  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 
   &::placeholder {
     color: var(--color-gray-600);
+    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
